@@ -1,0 +1,37 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" controllerName="chart.V_chart" xmlns:viz="sap.viz.ui5.controls"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data"
+	xmlns:suite.ui="sap.suite.ui.commons" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="Realtime Sensor Data">
+		<suite.ui:ChartContainer id="idChartContainer"
+			showFullScreen="true" showPersonalization="false" autoAdjustHeight="true"
+			showLegend="true">
+			<suite.ui:customIcons>
+				<core:Icon id="tagselect" width="2em" src="sap-icon://multi-select" press="handleTagSelect" >
+				</core:Icon>
+			</suite.ui:customIcons>
+
+			<suite.ui:content>
+				<suite.ui:ChartContainerContent icon="sap-icon://line-chart">
+					<suite.ui:content>
+						<viz:VizFrame xmlns="sap.viz" id="id1" width="100%"
+							vizType="timeseries_line">
+							<viz:dataset>
+								<viz.data:FlattenedDataset data="{/data}">
+									<viz.data:dimensions>
+										<viz.data:DimensionDefinition
+											name="Date" value="{timestamp}" dataType="date" />
+									</viz.data:dimensions>
+								</viz.data:FlattenedDataset>
+							</viz:dataset>
+							<viz:feeds>
+							</viz:feeds>
+						</viz:VizFrame>
+					</suite.ui:content>
+				</suite.ui:ChartContainerContent>
+			</suite.ui:content>
+
+		</suite.ui:ChartContainer>
+	</Page>
+</core:View>
+
