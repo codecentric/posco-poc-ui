@@ -72,7 +72,7 @@ sap.ui.controller("chart.V_chart", {
 
 	createWebSocketClient : function() {
 		// Establish the WebSocket connection and set up event handlers
-		this.webSocket = new WebSocket("ws://rtconsumer.posco-poc.marathon.mesos:8001/echo/");
+		this.webSocket = new WebSocket("ws://54.93.90.53:8001/echo/");
 		this.webSocket.onclose = function() {
 			alert("WebSocket connection closed");
 		};
