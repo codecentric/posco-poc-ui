@@ -9,18 +9,22 @@
 			<suite.ui:customIcons>
 				<core:Icon id="tagselect" width="2em" src="sap-icon://multi-select" press="handleTagSelect" >
 				</core:Icon>
+				<!--  <core:Icon id="zoomIn" width="2em" src="sap-icon://zoom-in" press="handleZoomIn" >
+				</core:Icon>
+				<core:Icon id="zoomOut" width="2em" src="sap-icon://zoom-out" press="handleZoomOut" >
+				</core:Icon>  -->
 			</suite.ui:customIcons>
 
 			<suite.ui:content>
 				<suite.ui:ChartContainerContent icon="sap-icon://line-chart">
 					<suite.ui:content>
 						<viz:VizFrame xmlns="sap.viz" id="id1" width="100%"
-							vizType="timeseries_line">
+							vizType="timeseries_line" uiConfig="{'applicationSet' : 'fiori'}">
 							<viz:dataset>
 								<viz.data:FlattenedDataset data="{/data}">
 									<viz.data:dimensions>
-										<viz.data:DimensionDefinition
-											name="Date" value="{timestamp}" dataType="date" />
+										<viz.data:DimensionDefinition name="Date" value="{timestamp}" dataType="date" />
+										<viz.data:DimensionDefinition name="Sensor" value="{sensor}" />
 									</viz.data:dimensions>
 								</viz.data:FlattenedDataset>
 							</viz:dataset>

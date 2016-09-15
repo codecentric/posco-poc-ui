@@ -2,120 +2,84 @@ sap.ui.controller("chart.V_chart", {
 
 	onInit : function(oEvent) {
 
-		this.model = new sap.ui.model.json.JSONModel();
 		this.tags = new sap.ui.model.json.JSONModel();
 
 		// initialize model
-		this.model.setData({
+		var model = new sap.ui.model.json.JSONModel();
+		model.setData({
 			data : []
 		});
-
+        
 		this.getAvailableTags("MySchemaDummy");
+		var oVizFrame = this.getView().byId("id1");
+        this.setFrameProperties(oVizFrame);
+		oVizFrame.setModel(model);
 		this.setSelectedMeasures();
 		this.createWebSocketClient();
-
-		var oVizFrame1 = this.getView().byId("id1");
-
-		oVizFrame1.setVizProperties({
-			general : {
-				layout : {
-					padding : 0.04
-				}
-			},
-			valueAxis : {
-				visible : true,
-				label : {
-
-				},
-				title : {
-					visible : false
-				}
-			},
-			timeAxis : {
-				title : {
-					visible : false
-				},
-				levelConfig : {
-					"year" : {
-						row : 2
-					}
-				},
-				interval : {
-					unit : ''
-				}
-			},
-			plotArea : {
-				window : {
-					start : Date.now(),
-					end : Date.now() + 30000
-				},
-				dataLabel : {
-
-					visible : false
-				}
-			},
-			legend : {
-				title : {
-					visible : false
-				}
-			},
-			title : {
-				visible : false
-			},
-			interaction : {
-				syncValueAxis : false
-			}
-		});
-
-		oVizFrame1.setModel(this.model);
 	},
 
 	createWebSocketClient : function() {
+		that = this;
 		// Establish the WebSocket connection and set up event handlers
+		//this.webSocket = new WebSocket("ws://localhost:4567/echo/");
 		this.webSocket = new WebSocket("ws://54.93.174.137:8001/posco");
 		this.webSocket.onclose = function() {
 			alert("WebSocket connection closed");
 		};
-
+		
 		this.webSocket.onmessage = jQuery.proxy(function(msg) {
-			var data = this.model.getProperty("/data");
 			message = JSON.parse(msg.data);
-			data.push(message);
-			if (data.length > 30) {
-				data.shift();
+			
+			var tags = this.tags.getProperty("/tags");
+			for (var i=0; i < tags.length; i++) {
+				if (tags[i].selected && tags[i].selected == true && tags[i].name == message.sensor) {
+					var oModel = that.getView().byId("id1").getModel(); 
+					data = oModel.getProperty("/data");
+					data.push(message);
+					if (data.length > 5000) {
+						data.shift();
+					}
+					oModel.updateBindings();
+				}
 			}
-			this.model.setProperty("/data", data);
+			//this.startDate = message.timestamp-10000;
+			//this.endDate = message.timestamp;
+			// this.getView().byId("id1").setVizProperties({plotArea:{
+			// window:{start: this.startDate, end: this.endDate }}});
+			// this.getView().byId("id1").setVizScales({scales:{
+			// timeAxis:{start: this.startDate, end: this.endDate }}});
+			// }
 		}, this);
 	},
-
+	
 	getAvailableTags(schema) {
 		this.tags.setData({
-			tags : [{"name": "s1val00", "description": "Sensor 1 Value1", "selected": true },
-			        {"name": "s1val01", "description": "Sensor 1 Value2" },
-			        {"name": "s1val02", "description": "Sensor 1 Value3" },
-			        {"name": "s1val03", "description": "Sensor 1 Value4" },
-			        {"name": "s2val00", "description": "Sensor 2 Value1" },
-			        {"name": "s2val01", "description": "Sensor 2 Value2" },
-			        {"name": "s2val02", "description": "Sensor 2 Value3" },
-			        {"name": "s2val03", "description": "Sensor 2 Value4" },
-			        {"name": "s3val00", "description": "Sensor 3 Value1" },
-			        {"name": "s3val01", "description": "Sensor 3 Value2" },
-			        {"name": "s3val02", "description": "Sensor 3 Value3" },
-			        {"name": "s3val03", "description": "Sensor 3 Value4" },
-			        {"name": "s4val00", "description": "Sensor 4 Value1" },
-			        {"name": "s4val01", "description": "Sensor 4 Value2" },
-			        {"name": "s4val02", "description": "Sensor 4 Value3" },
+			tags : [{"name": "s1val00", "description": "Sensor 1 Value1", "selected": true }, 
+			        {"name": "s1val01", "description": "Sensor 1 Value2" }, 
+			        {"name": "s1val02", "description": "Sensor 1 Value3" }, 
+			        {"name": "s1val03", "description": "Sensor 1 Value4" }, 
+			        {"name": "s2val00", "description": "Sensor 2 Value1" }, 
+			        {"name": "s2val01", "description": "Sensor 2 Value2" }, 
+			        {"name": "s2val02", "description": "Sensor 2 Value3" }, 
+			        {"name": "s2val03", "description": "Sensor 2 Value4" }, 
+			        {"name": "s3val00", "description": "Sensor 3 Value1" }, 
+			        {"name": "s3val01", "description": "Sensor 3 Value2" }, 
+			        {"name": "s3val02", "description": "Sensor 3 Value3" }, 
+			        {"name": "s3val03", "description": "Sensor 3 Value4" }, 
+			        {"name": "s4val00", "description": "Sensor 4 Value1" }, 
+			        {"name": "s4val01", "description": "Sensor 4 Value2" }, 
+			        {"name": "s4val02", "description": "Sensor 4 Value3" }, 
 			        {"name": "s4val03", "description": "Sensor 4 Value4" }]
 		});
 	},
-
+	
 	handleTagSelect(oEvent) {
 		var that= this;
 		var dialog = new sap.m.Dialog({
 			title: 'Available Tags',
 			content: new sap.m.List({
 				mode: 'MultiSelect',
-				includeItemInSelection: true,
+				includeItemInSelection: true,	
 				rememberSelections: true,
 				items: {
 					path: '/tags',
@@ -143,35 +107,101 @@ sap.ui.controller("chart.V_chart", {
 		this.getView().addDependent(dialog);
 		dialog.open();
 	},
-
+	
 	setSelectedMeasures() {
 		var oVizFrame = this.getView().byId("id1");
 		oVizFrame.removeAllFeeds();
 		oVizFrame.getDataset().removeAllMeasures();
-
-		// add dimension feed
+		
+		// add dimension feeds
 		var feed = new sap.viz.ui5.controls.common.feeds.FeedItem();
 		feed.setType("Dimension");
 		feed.setValues("Date");
 		feed.setUid("timeAxis");
 		oVizFrame.addFeed(feed);
 
-		// add measures
-		var tags = this.tags.getProperty("/tags");
-		for (var i=0; i < tags.length; i++) {
-			if (tags[i].selected && tags[i].selected == true ) {
-				var measure = new sap.viz.ui5.data.MeasureDefinition();
-				measure.setName(tags[i].name);
-				measure.bindProperty("value",tags[i].name);
-				oVizFrame.getDataset().addMeasure(measure);
+		var feed = new sap.viz.ui5.controls.common.feeds.FeedItem();
+		feed.setType("Measure");
+		feed.setValues("Value");
+		feed.setUid("valueAxis");
+		oVizFrame.addFeed(feed);
 
-				var feed = new sap.viz.ui5.controls.common.feeds.FeedItem();
-				feed.setType("Measure");
-				feed.setValues(tags[i].name);
-				feed.setUid("valueAxis");
-				oVizFrame.addFeed(feed);
+		var feed = new sap.viz.ui5.controls.common.feeds.FeedItem();
+		feed.setType("Dimension");
+		feed.setValues("Sensor");
+		feed.setUid("color");
+		oVizFrame.addFeed(feed);
+
+		// add measure
+		var measure = new sap.viz.ui5.data.MeasureDefinition();
+		measure.setName("Value");
+		measure.bindProperty("value","value");
+		oVizFrame.getDataset().addMeasure(measure);
+
+		//clear model
+		var oModel = this.getView().byId("id1").getModel(); 
+		data = oModel.getProperty("/data");
+		data = [];
+		oModel.updateBindings();
+
+	},
+	
+	setFrameProperties(oVizFrame) {
+		oVizFrame.setVizProperties({
+			general : {
+				layout : {
+					padding : 0.04
+				}
+			},
+			valueAxis : {
+				visible : true,
+				label : {
+
+				},
+				title : {
+					visible : false
+				}
+			},
+			timeAxis : {
+				title : {
+					visible : false
+				},
+				levelConfig : {
+					"year" : {
+						row : 2
+					}
+				},
+				interval : {
+					unit : ''
+				}
+			},
+			 yAxis : {
+                 scale: {
+                	 fixedRange : true,
+                     minValue : 0,
+                     maxValue : 1
+                 },
+			 },
+			plotArea : {
+				gap: { 
+					visible: false 
+				},
+				marker : {
+					visible : false
+				},
+				dataLabel : {
+					visible : false
+				}
+			},			
+			legend : {
+				title : {
+					visible : false
+				}
+			},
+			title : {
+				visible : false
 			}
-		}
+		});		
 	}
-
+	
 });
