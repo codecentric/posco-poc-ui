@@ -42,13 +42,12 @@ sap.ui.controller("chart.V_chart", {
 					oModel.updateBindings();
 				}
 			}
-			//this.startDate = message.timestamp-10000;
-			//this.endDate = message.timestamp;
-			// this.getView().byId("id1").setVizProperties({plotArea:{
-			// window:{start: this.startDate, end: this.endDate }}});
-			// this.getView().byId("id1").setVizScales({scales:{
-			// timeAxis:{start: this.startDate, end: this.endDate }}});
-			// }
+			this.startDate = message.timestamp-10000;
+			this.endDate = message.timestamp;
+			this.getView().byId("id1").setVizProperties({plotArea:{
+			window:{start: this.startDate, end: this.endDate }}});
+			this.getView().byId("id1").setVizScales({scales:{
+			timeAxis:{start: this.startDate, end: this.endDate }}});
 		}, this);
 	},
 
