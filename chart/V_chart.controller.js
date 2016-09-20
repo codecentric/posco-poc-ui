@@ -54,22 +54,22 @@ sap.ui.controller("chart.V_chart", {
 
 	getAvailableTags(schema) {
 		this.tags.setData({
-			tags : [{"name": "s1val00", "description": "Sensor 1 Value1", "selected": true },
-			        {"name": "s1val01", "description": "Sensor 1 Value2" },
-			        {"name": "s1val02", "description": "Sensor 1 Value3" },
-			        {"name": "s1val03", "description": "Sensor 1 Value4" },
-			        {"name": "s2val00", "description": "Sensor 2 Value1" },
-			        {"name": "s2val01", "description": "Sensor 2 Value2" },
-			        {"name": "s2val02", "description": "Sensor 2 Value3" },
-			        {"name": "s2val03", "description": "Sensor 2 Value4" },
-			        {"name": "s3val00", "description": "Sensor 3 Value1" },
-			        {"name": "s3val01", "description": "Sensor 3 Value2" },
-			        {"name": "s3val02", "description": "Sensor 3 Value3" },
-			        {"name": "s3val03", "description": "Sensor 3 Value4" },
-			        {"name": "s4val00", "description": "Sensor 4 Value1" },
-			        {"name": "s4val01", "description": "Sensor 4 Value2" },
-			        {"name": "s4val02", "description": "Sensor 4 Value3" },
-			        {"name": "s4val03", "description": "Sensor 4 Value4" }]
+			tags : [{"name": "s1val0", "description": "Sensor 1 Value1", "selected": true },
+			        {"name": "s1val1", "description": "Sensor 1 Value2", "selected": true },
+			        {"name": "s1val2", "description": "Sensor 1 Value3", "selected": true },
+			        {"name": "s1val3", "description": "Sensor 1 Value4"},
+			        {"name": "s2val0", "description": "Sensor 2 Value1"},
+			        {"name": "s2val1", "description": "Sensor 2 Value2"},
+			        {"name": "s2val2", "description": "Sensor 2 Value3"},
+			        {"name": "s2val3", "description": "Sensor 2 Value4"},
+			        {"name": "s3val0", "description": "Sensor 3 Value1"},
+			        {"name": "s3val1", "description": "Sensor 3 Value2"},
+			        {"name": "s3val2", "description": "Sensor 3 Value3"},
+			        {"name": "s3val3", "description": "Sensor 3 Value4"},
+			        {"name": "s4val0", "description": "Sensor 4 Value1"},
+			        {"name": "s4val1", "description": "Sensor 4 Value2"},
+			        {"name": "s4val2", "description": "Sensor 4 Value3"},
+			        {"name": "s4val3", "description": "Sensor 4 Value4"}]
 		});
 	},
 
