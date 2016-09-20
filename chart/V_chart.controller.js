@@ -9,7 +9,7 @@ sap.ui.controller("chart.V_chart", {
 		model.setData({
 			data : []
 		});
-        
+
 		this.getAvailableTags("MySchemaDummy");
 		var oVizFrame = this.getView().byId("id1");
         this.setFrameProperties(oVizFrame);
@@ -22,18 +22,18 @@ sap.ui.controller("chart.V_chart", {
 		that = this;
 		// Establish the WebSocket connection and set up event handlers
 		//this.webSocket = new WebSocket("ws://localhost:4567/echo/");
-		this.webSocket = new WebSocket("ws://54.93.174.137:8001/posco");
+		this.webSocket = new WebSocket("ws://52.59.236.142:8001/posco");
 		this.webSocket.onclose = function() {
 			alert("WebSocket connection closed");
 		};
-		
+
 		this.webSocket.onmessage = jQuery.proxy(function(msg) {
 			message = JSON.parse(msg.data);
-			
+
 			var tags = this.tags.getProperty("/tags");
 			for (var i=0; i < tags.length; i++) {
 				if (tags[i].selected && tags[i].selected == true && tags[i].name == message.sensor) {
-					var oModel = that.getView().byId("id1").getModel(); 
+					var oModel = that.getView().byId("id1").getModel();
 					data = oModel.getProperty("/data");
 					data.push(message);
 					if (data.length > 5000) {
@@ -51,35 +51,35 @@ sap.ui.controller("chart.V_chart", {
 			// }
 		}, this);
 	},
-	
+
 	getAvailableTags(schema) {
 		this.tags.setData({
-			tags : [{"name": "s1val00", "description": "Sensor 1 Value1", "selected": true }, 
-			        {"name": "s1val01", "description": "Sensor 1 Value2" }, 
-			        {"name": "s1val02", "description": "Sensor 1 Value3" }, 
-			        {"name": "s1val03", "description": "Sensor 1 Value4" }, 
-			        {"name": "s2val00", "description": "Sensor 2 Value1" }, 
-			        {"name": "s2val01", "description": "Sensor 2 Value2" }, 
-			        {"name": "s2val02", "description": "Sensor 2 Value3" }, 
-			        {"name": "s2val03", "description": "Sensor 2 Value4" }, 
-			        {"name": "s3val00", "description": "Sensor 3 Value1" }, 
-			        {"name": "s3val01", "description": "Sensor 3 Value2" }, 
-			        {"name": "s3val02", "description": "Sensor 3 Value3" }, 
-			        {"name": "s3val03", "description": "Sensor 3 Value4" }, 
-			        {"name": "s4val00", "description": "Sensor 4 Value1" }, 
-			        {"name": "s4val01", "description": "Sensor 4 Value2" }, 
-			        {"name": "s4val02", "description": "Sensor 4 Value3" }, 
+			tags : [{"name": "s1val00", "description": "Sensor 1 Value1", "selected": true },
+			        {"name": "s1val01", "description": "Sensor 1 Value2" },
+			        {"name": "s1val02", "description": "Sensor 1 Value3" },
+			        {"name": "s1val03", "description": "Sensor 1 Value4" },
+			        {"name": "s2val00", "description": "Sensor 2 Value1" },
+			        {"name": "s2val01", "description": "Sensor 2 Value2" },
+			        {"name": "s2val02", "description": "Sensor 2 Value3" },
+			        {"name": "s2val03", "description": "Sensor 2 Value4" },
+			        {"name": "s3val00", "description": "Sensor 3 Value1" },
+			        {"name": "s3val01", "description": "Sensor 3 Value2" },
+			        {"name": "s3val02", "description": "Sensor 3 Value3" },
+			        {"name": "s3val03", "description": "Sensor 3 Value4" },
+			        {"name": "s4val00", "description": "Sensor 4 Value1" },
+			        {"name": "s4val01", "description": "Sensor 4 Value2" },
+			        {"name": "s4val02", "description": "Sensor 4 Value3" },
 			        {"name": "s4val03", "description": "Sensor 4 Value4" }]
 		});
 	},
-	
+
 	handleTagSelect(oEvent) {
 		var that= this;
 		var dialog = new sap.m.Dialog({
 			title: 'Available Tags',
 			content: new sap.m.List({
 				mode: 'MultiSelect',
-				includeItemInSelection: true,	
+				includeItemInSelection: true,
 				rememberSelections: true,
 				items: {
 					path: '/tags',
@@ -107,12 +107,12 @@ sap.ui.controller("chart.V_chart", {
 		this.getView().addDependent(dialog);
 		dialog.open();
 	},
-	
+
 	setSelectedMeasures() {
 		var oVizFrame = this.getView().byId("id1");
 		oVizFrame.removeAllFeeds();
 		oVizFrame.getDataset().removeAllMeasures();
-		
+
 		// add dimension feeds
 		var feed = new sap.viz.ui5.controls.common.feeds.FeedItem();
 		feed.setType("Dimension");
@@ -139,13 +139,13 @@ sap.ui.controller("chart.V_chart", {
 		oVizFrame.getDataset().addMeasure(measure);
 
 		//clear model
-		var oModel = this.getView().byId("id1").getModel(); 
+		var oModel = this.getView().byId("id1").getModel();
 		data = oModel.getProperty("/data");
 		data = [];
 		oModel.updateBindings();
 
 	},
-	
+
 	setFrameProperties(oVizFrame) {
 		oVizFrame.setVizProperties({
 			general : {
@@ -183,8 +183,8 @@ sap.ui.controller("chart.V_chart", {
                  },
 			 },
 			plotArea : {
-				gap: { 
-					visible: false 
+				gap: {
+					visible: false
 				},
 				marker : {
 					visible : false
@@ -192,7 +192,7 @@ sap.ui.controller("chart.V_chart", {
 				dataLabel : {
 					visible : false
 				}
-			},			
+			},
 			legend : {
 				title : {
 					visible : false
@@ -201,7 +201,7 @@ sap.ui.controller("chart.V_chart", {
 			title : {
 				visible : false
 			}
-		});		
+		});
 	}
-	
+
 });
