@@ -36,14 +36,14 @@ sap.ui.controller("chart.V_chart", {
 					var oModel = that.getView().byId("id1").getModel();
 					data = oModel.getProperty("/data");
 					data.push(message);
-					if (data.length > 5000) {
+					if (data.length > 500) {
 						data.shift();
 					}
 					oModel.updateBindings();
 				}
 			}
 			this.startDate = message.timestamp-10000;
-			this.endDate = message.timestamp;
+			this.endDate = "lastDataPoint";
 			this.getView().byId("id1").setVizProperties({plotArea:{
 			window:{start: this.startDate, end: this.endDate }}});
 			this.getView().byId("id1").setVizScales({scales:{
