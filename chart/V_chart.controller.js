@@ -22,7 +22,7 @@ sap.ui.controller("chart.V_chart", {
 		that = this;
 		// Establish the WebSocket connection and set up event handlers
 		//this.webSocket = new WebSocket("ws://localhost:4567/echo/");
-		this.webSocket = new WebSocket("ws://52.59.236.142:8001/posco");
+		this.webSocket = new WebSocket("ws://52.59.224.66:8001/posco");
 		this.webSocket.onclose = function() {
 			alert("WebSocket connection closed");
 		};
