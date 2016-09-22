@@ -14,17 +14,17 @@ sap.ui.controller("chart.V_chart", {
 		var oVizFrame = this.getView().byId("id1");
         this.setFrameProperties(oVizFrame);
 		oVizFrame.setModel(model);
+		this.updateWebSocketClient();
 		this.setSelectedMeasures();
-		this.createWebSocketClient();
 	},
 
-	createWebSocketClient : function() {
+	updateWebSocketClient : function() {
 		that = this;
 		// Establish the WebSocket connection and set up event handlers
-		//this.webSocket = new WebSocket("ws://localhost:4567/echo/");
-		this.webSocket = new WebSocket("ws://52.59.224.66:8001/posco");
+		//this.webSocket = new WebSocket("ws://localhost:4567/echo/?selectedSensors=" + this.getSelectedSensors());
+		this.webSocket = new WebSocket("ws://52.59.224.66:8001/posco?selectedSensors=" + this.getSelectedSensors());
 		this.webSocket.onclose = function() {
-			alert("WebSocket connection closed");
+			//alert("WebSocket connection closed");
 		};
 
 		this.webSocket.onmessage = jQuery.proxy(function(msg) {
@@ -97,6 +97,8 @@ sap.ui.controller("chart.V_chart", {
 			}),
 			afterClose: function() {
 				that.setSelectedMeasures();
+				that.webSocket.close();
+				that.updateWebSocketClient();
 				dialog.destroy();
 			}
 		});
@@ -137,14 +139,28 @@ sap.ui.controller("chart.V_chart", {
 		measure.bindProperty("value","value");
 		oVizFrame.getDataset().addMeasure(measure);
 
-		//clear model
+		// clear model
 		var oModel = this.getView().byId("id1").getModel();
 		data = oModel.getProperty("/data");
-		data = [];
+		data.length = 0;
 		oModel.updateBindings();
-
+		
 	},
 
+	getSelectedSensors() {
+		var tags = this.tags.getProperty("/tags");
+		var sensors = "";
+		for (var i=0; i < tags.length; i++) {
+			if (tags[i].selected && tags[i].selected == true) {
+				sensors = sensors + tags[i].name;
+				if (i < tags.length) {
+					 sensors = sensors + ","
+				}
+			}
+		}
+		return sensors;		
+	},
+	
 	setFrameProperties(oVizFrame) {
 		oVizFrame.setVizProperties({
 			general : {
