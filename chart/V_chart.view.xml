@@ -4,15 +4,15 @@
 	xmlns:suite.ui="sap.suite.ui.commons" xmlns:html="http://www.w3.org/1999/xhtml">
 	<Page title="Realtime Sensor Data">
 		<suite.ui:ChartContainer id="idChartContainer"
-			showFullScreen="true" showPersonalization="false" autoAdjustHeight="true"
+			showFullScreen="true" showPersonalization="false" showZoom="false" autoAdjustHeight="true"
 			showLegend="true">
 			<suite.ui:customIcons>
 				<core:Icon id="tagselect" width="2em" src="sap-icon://multi-select" press="handleTagSelect" >
 				</core:Icon>
-				<!--  <core:Icon id="zoomIn" width="2em" src="sap-icon://zoom-in" press="handleZoomIn" >
+				<core:Icon id="zoomIn" width="2em" src="sap-icon://zoom-in" press="handleZoomIn" >
 				</core:Icon>
 				<core:Icon id="zoomOut" width="2em" src="sap-icon://zoom-out" press="handleZoomOut" >
-				</core:Icon>  -->
+				</core:Icon>
 			</suite.ui:customIcons>
 
 			<suite.ui:content>

@@ -2,6 +2,7 @@ sap.ui.controller("chart.V_chart", {
 
 	onInit : function(oEvent) {
 
+		this.zoomfactor = 5;
 		this.tags = new sap.ui.model.json.JSONModel();
 
 		// initialize model
@@ -23,9 +24,9 @@ sap.ui.controller("chart.V_chart", {
 		// Establish the WebSocket connection and set up event handlers
 		//this.webSocket = new WebSocket("ws://localhost:4567/echo/?selectedSensors=" + this.getSelectedSensors());
 		this.webSocket = new WebSocket("ws://52.59.116.20:8001/posco?selectedSensors=" + this.getSelectedSensors());
-		this.webSocket.onclose = function() {
+		//this.webSocket.onclose = function() {
 			//alert("WebSocket connection closed");
-		};
+		//};
 
 		this.webSocket.onmessage = jQuery.proxy(function(msg) {
 			message = JSON.parse(msg.data);
@@ -42,7 +43,7 @@ sap.ui.controller("chart.V_chart", {
 					oModel.updateBindings();
 				}
 			}
-			this.startDate = message.timestamp-10000;
+			this.startDate = message.timestamp-(50000/this.zoomfactor);
 			this.endDate = "lastDataPoint";
 			this.getView().byId("id1").setVizProperties({plotArea:{
 			window:{start: this.startDate, end: this.endDate }}});
@@ -217,6 +218,19 @@ sap.ui.controller("chart.V_chart", {
 				visible : false
 			}
 		});
+	},
+	
+	handleZoomIn(event) {
+		if (this.zoomfactor < 10) {
+			this.zoomfactor++;
+		}
+	},
+
+	handleZoomOut(event) {		
+		if (this.zoomfactor > 1) {
+			this.zoomfactor--;
+		}
 	}
+
 
 });
