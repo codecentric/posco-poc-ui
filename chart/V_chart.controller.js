@@ -54,22 +54,22 @@ sap.ui.controller("chart.V_chart", {
 
 	getAvailableTags(schema) {
 		this.tags.setData({
-			tags : [{"name": "s1val0", "description": "Sensor 1 Value1", "selected": true },
-			        {"name": "s1val1", "description": "Sensor 1 Value2", "selected": true },
-			        {"name": "s1val2", "description": "Sensor 1 Value3", "selected": true },
-			        {"name": "s1val3", "description": "Sensor 1 Value4"},
-			        {"name": "s2val0", "description": "Sensor 2 Value1"},
-			        {"name": "s2val1", "description": "Sensor 2 Value2"},
-			        {"name": "s2val2", "description": "Sensor 2 Value3"},
-			        {"name": "s2val3", "description": "Sensor 2 Value4"},
-			        {"name": "s3val0", "description": "Sensor 3 Value1"},
-			        {"name": "s3val1", "description": "Sensor 3 Value2"},
-			        {"name": "s3val2", "description": "Sensor 3 Value3"},
-			        {"name": "s3val3", "description": "Sensor 3 Value4"},
-			        {"name": "s4val0", "description": "Sensor 4 Value1"},
-			        {"name": "s4val1", "description": "Sensor 4 Value2"},
-			        {"name": "s4val2", "description": "Sensor 4 Value3"},
-			        {"name": "s4val3", "description": "Sensor 4 Value4"}]
+			tags : [{"name": "sensor_1", "description": "Sensor 1", "selected": true },
+			        {"name": "sensor_2", "description": "Sensor 2", "selected": true },
+			        {"name": "sensor_3", "description": "Sensor 3", "selected": true },
+			        {"name": "sensor_4", "description": "Sensor 4"},
+			        {"name": "sensor_5", "description": "Sensor 5"},
+			        {"name": "sensor_6", "description": "Sensor 6"},
+			        {"name": "sensor_7", "description": "Sensor 7"},
+			        {"name": "sensor_8", "description": "Sensor 8"},
+			        {"name": "sensor_9", "description": "Sensor 9"},
+			        {"name": "sensor_10", "description": "Sensor 10"},
+			        {"name": "sensor_11", "description": "Sensor 11"},
+			        {"name": "sensor_12", "description": "Sensor 12"},
+			        {"name": "sensor_13", "description": "Sensor 13"},
+			        {"name": "sensor_14", "description": "Sensor 14"},
+			        {"name": "sensor_15", "description": "Sensor 15"},
+			        {"name": "sensor_16", "description": "Sensor 16"}]
 		});
 	},
 
