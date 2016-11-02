@@ -1,0 +1,65 @@
+<mvc:View controllerName="table.list" xmlns="sap.ui.table"
+	xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns:c="sap.ui.core"
+	xmlns:m="sap.m">
+	<m:Page showHeader="false" enableScrolling="false" class="sapUiContentPadding">
+		<m:content>
+			<m:VBox class="sapUiSmallMargin">
+				<m:Label text="Start Time" labelFor="starttime" />
+				<m:DateTimePicker id="starttime" placeholder="Enter Date ..."
+					change="handleChange" />
+				<m:Label text="End Time" labelFor="endtime" />
+				<m:DateTimePicker id="endtime" placeholder="Enter Date ..."
+					change="handleChange" />
+				<m:Button text="Refresh" press="onRefresh" />
+				<Table rows="{/metrics}" title="Metrics" selectionMode="None"
+					visibleRowCount="20">
+					<columns>
+						<Column width="11rem">
+							<m:Label text="Start" />
+							<template>
+								<m:Text text="{end}" />
+							</template>
+						</Column>
+						<Column width="11rem">
+							<m:Label text="End" />
+							<template>
+								<m:Text text="{end}" />
+							</template>
+						</Column>
+						<Column width="7rem">
+							<m:Label text="Count" />
+							<template>
+								<m:Text text="{count}" />
+							</template>
+						</Column>
+						<Column width="7rem">
+							<m:Label text="Min Value" />
+							<template>
+								<m:Text text="{min}" />
+							</template>
+						</Column>
+						<Column width="7rem">
+							<m:Label text="Max Value" />
+							<template>
+								<m:Text text="{max}" />
+							</template>
+						</Column>
+						<Column width="7rem">
+							<m:Label text="Mean" />
+							<template>
+								<m:Text text="{mean}" />
+							</template>
+						</Column>
+						<Column width="7rem">
+							<m:Label text="Standard Deviation" />
+							<template>
+								<m:Text text="{stdev}" />
+							</template>
+						</Column>
+					</columns>
+				</Table>
+			</m:VBox>
+		</m:content>
+	</m:Page>
+</mvc:View>
+					
