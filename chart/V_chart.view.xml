@@ -3,7 +3,7 @@
 	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data"
 	xmlns:suite.ui="sap.suite.ui.commons" xmlns:table="sap.ui.table" xmlns:html="http://www.w3.org/1999/xhtml">
 	<Page title="Realtime Sensor Data">
-		<l:VerticalLayout class="sapUiSmallMargin" >
+		<l:VerticalLayout class="sapUiSmallMargin" height="100%">
 			<table:Table rows="{/alarms}" title="Sensor Status" selectionMode="None"
 				visibleRowCount="3">
 				<table:columns>
@@ -24,7 +24,7 @@
 			</table:Table>
 			<suite.ui:ChartContainer id="idChartContainer" title="Sensor Values"
 				showFullScreen="true" showPersonalization="false" showZoom="false"
-				autoAdjustHeight="true" showLegend="true">
+				autoAdjustHeight="false" showLegend="true">
 				<suite.ui:customIcons>
 					<core:Icon id="tagselect" width="2em" src="sap-icon://multi-select"
 						press="handleTagSelect">
