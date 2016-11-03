@@ -1,41 +1,66 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m" controllerName="chart.V_chart" xmlns:viz="sap.viz.ui5.controls"
+	xmlns="sap.m" controllerName="chart.V_chart" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout"
 	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data"
-	xmlns:suite.ui="sap.suite.ui.commons" xmlns:html="http://www.w3.org/1999/xhtml">
+	xmlns:suite.ui="sap.suite.ui.commons" xmlns:table="sap.ui.table" xmlns:html="http://www.w3.org/1999/xhtml">
 	<Page title="Realtime Sensor Data">
-		<suite.ui:ChartContainer id="idChartContainer"
-			showFullScreen="true" showPersonalization="false" showZoom="false" autoAdjustHeight="true"
-			showLegend="true">
-			<suite.ui:customIcons>
-				<core:Icon id="tagselect" width="2em" src="sap-icon://multi-select" press="handleTagSelect" >
-				</core:Icon>
-				<core:Icon id="zoomIn" width="2em" src="sap-icon://zoom-in" press="handleZoomIn" >
-				</core:Icon>
-				<core:Icon id="zoomOut" width="2em" src="sap-icon://zoom-out" press="handleZoomOut" >
-				</core:Icon>
-			</suite.ui:customIcons>
+		<l:VerticalLayout class="sapUiSmallMargin" >
+			<table:Table rows="{/alarms}" title="Sensor Status" selectionMode="None"
+				visibleRowCount="3">
+				<table:columns>
+					<table:Column width="11rem">
+						<Label text="Sensor" />
+						<table:template>
+							<Text text="{sensor}" />
+						</table:template>
+					</table:Column>
+					<table:Column width="11rem">
+						<Label text="Status" />
+						<table:template>
+							<ObjectStatus text="{path: 'alarm' , formatter: '.getSensorStatus'}"
+								  state="{path: 'alarm', formatter: '.getSensorColor'}" />
+						</table:template>
+					</table:Column>
+				</table:columns>
+			</table:Table>
+			<suite.ui:ChartContainer id="idChartContainer" title="Sensor Values"
+				showFullScreen="true" showPersonalization="false" showZoom="false"
+				autoAdjustHeight="true" showLegend="true">
+				<suite.ui:customIcons>
+					<core:Icon id="tagselect" width="2em" src="sap-icon://multi-select"
+						press="handleTagSelect">
+					</core:Icon>
+					<core:Icon id="zoomIn" width="2em" src="sap-icon://zoom-in"
+						press="handleZoomIn">
+					</core:Icon>
+					<core:Icon id="zoomOut" width="2em" src="sap-icon://zoom-out"
+						press="handleZoomOut">
+					</core:Icon>
+				</suite.ui:customIcons>
 
-			<suite.ui:content>
-				<suite.ui:ChartContainerContent icon="sap-icon://line-chart">
-					<suite.ui:content>
-						<viz:VizFrame xmlns="sap.viz" id="id1" width="100%"
-							vizType="timeseries_line" uiConfig="{'applicationSet' : 'fiori'}">
-							<viz:dataset>
-								<viz.data:FlattenedDataset data="{/data}">
-									<viz.data:dimensions>
-										<viz.data:DimensionDefinition name="Date" value="{timestamp}" dataType="date" />
-										<viz.data:DimensionDefinition name="Sensor" value="{sensor}" />
-									</viz.data:dimensions>
-								</viz.data:FlattenedDataset>
-							</viz:dataset>
-							<viz:feeds>
-							</viz:feeds>
-						</viz:VizFrame>
-					</suite.ui:content>
-				</suite.ui:ChartContainerContent>
-			</suite.ui:content>
-
-		</suite.ui:ChartContainer>
+				<suite.ui:content>
+					<suite.ui:ChartContainerContent
+						icon="sap-icon://line-chart">
+						<suite.ui:content>
+							<viz:VizFrame xmlns="sap.viz" id="id1" width="100%"
+								vizType="timeseries_line" uiConfig="{'applicationSet' : 'fiori'}">
+								<viz:dataset>
+									<viz.data:FlattenedDataset data="{/data}">
+										<viz.data:dimensions>
+											<viz.data:DimensionDefinition
+												name="Date" value="{timestamp}" dataType="date" />
+											<viz.data:DimensionDefinition
+												name="Sensor" value="{sensor}" />
+										</viz.data:dimensions>
+									</viz.data:FlattenedDataset>
+								</viz:dataset>
+								<viz:feeds>
+								</viz:feeds>
+							</viz:VizFrame>
+						</suite.ui:content>
+					</suite.ui:ChartContainerContent>
+				</suite.ui:content>
+			</suite.ui:ChartContainer>
+		</l:VerticalLayout>
 	</Page>
 </core:View>
 

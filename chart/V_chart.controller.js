@@ -8,13 +8,14 @@ sap.ui.controller("chart.V_chart", {
 		// initialize model
 		var model = new sap.ui.model.json.JSONModel();
 		model.setData({
-			data : []
+			data : [],
+		    alarms : []
 		});
 
 		this.getAvailableTags("MySchemaDummy");
 		var oVizFrame = this.getView().byId("id1");
         this.setFrameProperties(oVizFrame);
-		oVizFrame.setModel(model);
+		this.getView().setModel(model);
 		this.updateWebSocketClient();
 		this.setSelectedMeasures();
 	},
@@ -22,27 +23,41 @@ sap.ui.controller("chart.V_chart", {
 	updateWebSocketClient : function() {
 		that = this;
 		// Establish the WebSocket connection and set up event handlers
-		//this.webSocket = new WebSocket("ws://localhost:4567/echo/?selectedSensors=" + this.getSelectedSensors());
-		this.webSocket = new WebSocket("ws://52.59.116.20:8001/posco?selectedSensors=" + this.getSelectedSensors());
-		//this.webSocket.onclose = function() {
-			//alert("WebSocket connection closed");
-		//};
+		this.webSocket = new WebSocket("ws://localhost:4567/echo/?selectedSensors=" + this.getSelectedSensors());
+		// this.webSocket = new
+		// WebSocket("ws://52.59.116.20:8001/posco?selectedSensors=" +
+		// this.getSelectedSensors());
+		// this.webSocket.onclose = function() {
+			// alert("WebSocket connection closed");
+		// };
 
 		this.webSocket.onmessage = jQuery.proxy(function(msg) {
 			message = JSON.parse(msg.data);
-
 			var tags = this.tags.getProperty("/tags");
+			var oModel = that.getView().getModel();
+			var alarms = oModel.getProperty("/alarms");
+			var alarmsMap = {}
+            for (var i=0; i<alarms.length; i++) {
+            	alarmsMap[alarms[i].sensor] = alarms[i];
+            }
 			for (var i=0; i < tags.length; i++) {
 				if (tags[i].selected && tags[i].selected == true && tags[i].name == message.sensor) {
-					var oModel = that.getView().byId("id1").getModel();
+					alarmsMap[message.sensor] = message;					
 					data = oModel.getProperty("/data");
 					data.push(message);
 					if (data.length > 500) {
 						data.shift();
 					}
-					oModel.updateBindings();
+					
+					alarms.length = 0;
+					for (var j in alarmsMap) {
+		            	alarms.push(alarmsMap[j]);
+		            }
+
 				}
 			}
+			oModel.updateBindings();
+
 			this.startDate = message.timestamp-(50000/this.zoomfactor);
 			this.endDate = "lastDataPoint";
 			this.getView().byId("id1").setVizProperties({plotArea:{
@@ -141,8 +156,8 @@ sap.ui.controller("chart.V_chart", {
 		oVizFrame.getDataset().addMeasure(measure);
 
 		// clear model
-		var oModel = this.getView().byId("id1").getModel();
-		data = oModel.getProperty("/data");
+		var oModel = this.getView().getModel();
+		data = oModel.getProperty("/");
 		data.length = 0;
 		oModel.updateBindings();
 		
@@ -230,7 +245,32 @@ sap.ui.controller("chart.V_chart", {
 		if (this.zoomfactor > 1) {
 			this.zoomfactor--;
 		}
+	},
+	
+	getSensorStatus(value) {
+		switch(value) {
+	     case 1:
+	        return "Warning";
+	        break;
+	     case 2:
+	        return "Error";
+	        break;
+	     default:
+	         return "O.k.";
+		}
+	},
+	
+	getSensorColor(value) {
+		switch(value) {
+	     case 1:
+	        return "Warning";
+	        break;
+	     case 2:
+	        return "Error";
+	        break;
+	     default:
+	         return "Success";
+		}
 	}
-
 
 });
