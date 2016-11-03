@@ -24,10 +24,7 @@ sap.ui.controller("chart.V_chart", {
 		that = this;
 		// Establish the WebSocket connection and set up event handlers
 		//this.webSocket = new WebSocket("ws://localhost:4567/echo/?selectedSensors=" + this.getSelectedSensors());
-		 this.webSocket = new WebSocket("ws://52.59.116.20:8001/posco?selectedSensors=" + this.getSelectedSensors());
-		 this.webSocket.onclose = function() {
-			 alert("WebSocket connection closed");
-		 };
+		this.webSocket = new WebSocket("ws://52.59.116.20:8001/posco?selectedSensors=" + this.getSelectedSensors());
 
 		this.webSocket.onmessage = jQuery.proxy(function(msg) {
 			message = JSON.parse(msg.data);
@@ -46,7 +43,7 @@ sap.ui.controller("chart.V_chart", {
 					if (data.length > 500) {
 						data.shift();
 					}
-					
+					data.sort();
 					alarms.length = 0;
 					for (var j in alarmsMap) {
 		            	alarms.push(alarmsMap[j]);
@@ -155,8 +152,8 @@ sap.ui.controller("chart.V_chart", {
 
 		// clear model
 		var oModel = this.getView().getModel();
-		data = oModel.getProperty("/");
-		data.length = 0;
+		oModel.getProperty("/data").length = 0;
+		oModel.getProperty("/alarms").length = 0;
 		oModel.updateBindings();
 		
 	},
