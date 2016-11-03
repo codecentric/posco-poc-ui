@@ -59,8 +59,8 @@ sap.ui.controller("table.list", {
 		// timezoneOffset is in hours convert to milliseconds
 		var TZOffsetMs = new Date(0).getTimezoneOffset()*60*1000;
 		// format date and time to strings offsetting to GMT
-		var dateStr = dateFormat.format(new Date(value * 1000));
-		var timeStr = timeFormat.format(new Date(value * 1000));
+		var dateStr = dateFormat.format(new Date(value));
+		var timeStr = timeFormat.format(new Date(value));
 		return dateStr + " " + timeStr; 
 	}
 
