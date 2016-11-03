@@ -17,13 +17,13 @@
 						<Column width="11rem">
 							<m:Label text="Start" />
 							<template>
-								<m:Text text="{end}" />
+								<m:Text text="{path: 'start' , formatter: '.getDate'}" />
 							</template>
 						</Column>
 						<Column width="11rem">
 							<m:Label text="End" />
 							<template>
-								<m:Text text="{end}" />
+								<m:Text text="{path: 'end' , formatter: '.getDate'}" />
 							</template>
 						</Column>
 						<Column width="7rem">
