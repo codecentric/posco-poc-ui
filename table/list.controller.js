@@ -17,7 +17,7 @@ sap.ui.controller("table.list", {
 			start = end - 1000 * 60 * 60 * 3;
 			this.getView().byId("starttime").setDateValue(new Date(start));
 		}
-		this.model.loadData("http://52.59.116.20:8001/metrics/cassandra?start=" + start +"&end=" + end, null, false);
+		this.model.loadData("http://35.156.38.187:8001/metrics/cassandra?start=" + start +"&end=" + end, null, false);
 //			this.model.setData({
 //				"metrics":[  
 //				           {  
