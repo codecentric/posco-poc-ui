@@ -24,7 +24,7 @@ sap.ui.controller("chart.V_chart", {
 		that = this;
 		// Establish the WebSocket connection and set up event handlers
 		//this.webSocket = new WebSocket("ws://localhost:4567/echo/?selectedSensors=" + this.getSelectedSensors());
-		this.webSocket = new WebSocket("ws://" + window.location.hostname +"35.156.38.187:8001/posco?selectedSensors=" + this.getSelectedSensors());
+		this.webSocket = new WebSocket("ws://" + window.location.hostname +":8001/posco?selectedSensors=" + this.getSelectedSensors());
 
 		this.webSocket.onmessage = jQuery.proxy(function(msg) {
 			message = JSON.parse(msg.data);
